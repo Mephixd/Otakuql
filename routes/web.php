@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AnimeController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[AnimeController::class,'index'])->name('home');
+
+
+/** lOGIN  */
+Route::get('/registro',[LoginController::class,'view_registro'])->name('registro');
+Route::get('/login',[LoginController::class,'view_login'])->name('login');
+
+
+
+/** FIN LOGIN */
