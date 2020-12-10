@@ -53,8 +53,8 @@
                                         <li><a href="./anime-details.html">Anime Details</a></li>
                                         <li><a href="./anime-watching.html">Anime Watching</a></li>
                                         <li><a href="./blog-details.html">Blog Details</a></li>
-                                        <li><a href="{{route('registro')}}">Sign Up</a></li>
-                                        <li><a href="{{route('login')}}">Login</a></li>
+                                        <li><a href="{{route('registro.view')}}">Sign Up</a></li>
+                                        <li><a href="{{route('login.view')}}">Login</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="./blog.html">Our Blog</a></li>
@@ -66,7 +66,7 @@
                 <div class="col-lg-2">
                     <div class="header__right">
                         <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="{{route('login')}}"><span class="icon_profile"></span></a>
+                        <a href="{{route('login.view')}}"><span class="icon_profile"></span></a>
                     </div>
                 </div>
             </div>

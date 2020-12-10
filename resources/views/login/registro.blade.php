@@ -25,22 +25,23 @@
                 <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Sign Up</h3>
-                        <form action="#">
+                         <form action="{{route('registro')}}" method="POST">
+                            @csrf
                             <div class="input__item">
-                                <input type="text" placeholder="Email address">
+                                <input type="text" name="email" placeholder="Email address">
                                 <span class="icon_mail"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Your Name">
+                                <input type="text" name="nombre" placeholder="Your Name">
                                 <span class="icon_profile"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Password">
+                                <input type="password" name="contraseña" placeholder="Password">
                                 <span class="icon_lock"></span>
                             </div>
                             <button type="submit" class="site-btn">Login Now</button>
                         </form>
-                    <h5>Already have an account? <a href="{{route('login')}}">Log In!</a></h5>
+                    <h5>Already have an account? <a href="{{route('login.view')}}">Log In!</a></h5>
                     </div>
                 </div>
                 <div class="col-lg-6">

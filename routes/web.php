@@ -19,8 +19,11 @@ Route::get('/',[AnimeController::class,'index'])->name('home');
 
 
 /** lOGIN  */
-Route::get('/registro',[LoginController::class,'view_registro'])->name('registro');
-Route::get('/login',[LoginController::class,'view_login'])->name('login');
+Route::get('/registro',[LoginController::class,'view_registro'])->name('registro.view');
+Route::get('/login',[LoginController::class,'view_login'])->name('login.view');
+Route::post('loguear',[LoginController::class,'login'])->name('login');
+Route::post('registrar',[LoginController::class,'registro'])->name('registro');
+
 
 
 
