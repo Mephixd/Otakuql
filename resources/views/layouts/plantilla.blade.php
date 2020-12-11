@@ -26,6 +26,15 @@
 </head>
 
 <body>
+    <style>
+        .dropdown:hover > .dropdown-menu {
+        display: block;
+    }
+    .dropdown > .dropdown-toggle:active {
+        /*Without this, clicking will make it sticky*/
+        pointer-events: none;
+    }
+    </style>
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -53,8 +62,11 @@
                                         <li><a href="./anime-details.html">Anime Details</a></li>
                                         <li><a href="./anime-watching.html">Anime Watching</a></li>
                                         <li><a href="./blog-details.html">Blog Details</a></li>
+                                         @auth <li><a href="#">{{Auth::user()->name}}</a></li>  @endauth
+                                         @guest
                                         <li><a href="{{route('registro.view')}}">Sign Up</a></li>
                                         <li><a href="{{route('login.view')}}">Login</a></li>
+                                        @endguest
                                     </ul>
                                 </li>
                                 <li><a href="./blog.html">Our Blog</a></li>
@@ -64,9 +76,20 @@
                     </div>
                 </div>
                 <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="{{route('login.view')}}"><span class="icon_profile"></span></a>
+                    <div class="header__right ">
+                       <ul class="d-flex">
+                        <a href="#" class="search-switch ml-4"><span class="icon_search"></span></a>
+                            @guest <a href="{{route('login.view')}}"><span class="icon_profile "></span></a> @endguest
+                            @auth  <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{Auth::user()->name}}
+                              </a>
+                              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+                              <li><a class="dropdown-item text-dark" href="{{route('logout')}}">Cerrar Sesion</a></li>
+                                {{-- <li><a class="dropdown-item text-dark" href="#">Another action</a></li>
+                                <li><a class="dropdown-item text-dark" href="#">Something else here</a></li> --}}
+                              </ul>
+                            @endauth
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -142,7 +165,7 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
 </body>
 
