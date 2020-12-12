@@ -24,10 +24,12 @@ Route::get('/admin',[AdminController::class,'index'])->name('admin.index');
 Route::get('/admin/users',[AdminController::class,'view_users'])->name('admin.users');
 Route::get('/admin/user/{id_user}',[AdminController::class,'edit_user'])->name('admin.users.edit');
 Route::post('/admin/user/{id_user}',[AdminController::class,'update_user'])->name('admin.users.update');
+Route::post('/admin/user/{id_user}',[AdminController::class,'delete_user'])->name('admin.users.delete');
+
+Route::get('/admin/users/table',[AdminController::class,'users_table']);
 
 Route::get('/admin/roles/create',[AdminController::class,'create_rol'])->name('admin.roles.create');
 Route::post('/admin/roles/create',[AdminController::class,'store_rol'])->name('admin.roles.store');
-
 
 
 /* FIN ADMIN */
