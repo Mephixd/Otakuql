@@ -5,18 +5,14 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
+
+/* Home */
 Route::get('/',[AnimeController::class,'index'])->name('home');
+Route::get('/categorias',[AnimeController::class,'categorias'])->name('categorias');
+Route::get('/Ver/Anime',[AnimeController::class,'play_anime'])->name('anime.play');
+
+/* FIn Home */
 
 /* ADMIN */
 
@@ -27,7 +23,6 @@ Route::put('/admin/user/{id_user}',[AdminController::class,'update_user'])->name
 Route::post('/admin/user',[AdminController::class,'delete_user'])->name('admin.users.delete');
 
 Route::get('/admin/users/table',[AdminController::class,'users_table']);
-
 Route::get('/admin/roles/create',[AdminController::class,'create_rol'])->name('admin.roles.create');
 Route::post('/admin/roles/create',[AdminController::class,'store_rol'])->name('admin.roles.store');
 

@@ -11,5 +11,15 @@ class AnimeController extends Controller
         
         return view('Home.index');
     }
+
+    public function categorias(){
+        
+        return view('Home.categorias');
+    }
+
+    public function play_anime(){
+
+        return view('Home.play');
+    }
    
 }
