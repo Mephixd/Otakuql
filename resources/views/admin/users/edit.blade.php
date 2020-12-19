@@ -11,18 +11,25 @@
                 Editar Usuario
             </div>
             <div class="card-body">
-                <form action="" method="post">
+                @if(Session::has('user_updated'))
+                <div class="alert alert-success" role="alert">
+                    <strong>{{Session::get('user_updated')}}</strong>
+                </div>
+                @endif
+                <form action="{{route('admin.users.update',$user->id)}}" method="POST">
+                    @csrf
+                    @method('PUT')
                     <div class="row">
                          <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="nombre">Nombre: </label>
-                                <input type="text" class="form-control" placeholder="Ingrese el nombre del usuario" value="{{$user->name}}">
+                                <input type="text" class="form-control" name="nombre" placeholder="Ingrese el nombre del usuario" value="{{$user->name}}">
                             </div>
                          </div>
                          <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="nombre">Email: </label>
-                                <input type="text" class="form-control" placeholder="Ingrese el email del usuario" value="{{$user->email}}">
+                                <input type="text" class="form-control" name="email" placeholder="Ingrese el email del usuario" value="{{$user->email}}">
                             </div>
                          </div>
                     </div>
@@ -33,20 +40,14 @@
                             <ul class="list-unstyled">   
                                     <li>
                                         <label>
-                                            <input type="checkbox" name="roles[]" value="" >
+                                            <input type="checkbox" name="admin" @if($user->hasRole('Administrativo')) checked @endif >
                                             Administrador
                                         </label>
                                     </li>
                                     <li>
                                         <label>
-                                            <input type="checkbox" name="roles[]" value="" >
+                                            <input type="checkbox" name="mod" @if($user->hasRole('mod')) checked @endif >
                                              Moderador
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <input type="checkbox" name="roles[]" value="" >
-                                            Usuario
                                         </label>
                                     </li>
                             </ul>

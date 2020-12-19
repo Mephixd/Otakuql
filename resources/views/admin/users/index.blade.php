@@ -21,7 +21,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                          
+
                         </tbody>
                     </table>
                 </div>
@@ -34,7 +34,7 @@
 
 @section('js')
 <script>
-   $(document).ready(function(){
+    $(document).ready(function(){
 
         var table_users = $('#table-users').DataTable({
             "ajax": "/admin/users/table",
@@ -61,9 +61,9 @@
                         $button += "<a href='{!!URL::to('/admin/user/" + cellData +"')!!}' class='btn btn-sm col-lg-4  btn-outline-success' >"
                         $button += "Ver"
                         $button += "</a>"
-                        $button += "<a href='{!!URL::to('/admin/user/" + cellData +"')!!}' class='btn btn-sm col-lg-4 mr-4  btn-outline-danger' >"
+                        $button += "<button id='btn-eliminar' data-id='"+cellData+"' class='btn btn-sm col-lg-4 mr-4  btn-outline-danger'>"
                         $button += "Eliminar"
-                        $button += "</a>"
+                        $button += "</button>"
                         $button += "</div>"
                         $(td).html($button)
                     }
@@ -71,6 +71,43 @@
             ]
         });
 
+        $('#table-users tbody').on('click','#btn-eliminar',function(){
+            var id = $(this).attr("data-id");
+           console.log(id); 
+
+            Swal.fire({
+            title: 'Estas seguro que quieres eliminar este usuario?',
+            text: "Esta accion no se puede revertir!",
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Borralo!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                type: "POST",
+                 data: {
+                    id: id,
+                    "_token": "{{ csrf_token() }}",
+                },
+                url: "/admin/user",
+                success: function(data){
+                    Swal.fire(
+                    'Borrado!',
+                    'El usuario fue borrado exitosamente.', 
+                    'success'
+                    );
+                    table_users.ajax.reload();
+                }
+            })
+
+                
+            }
+            })
+           
+        });
    });
     
 

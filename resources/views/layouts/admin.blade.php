@@ -273,6 +273,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="{{asset('adminlte/dist/js/adminlte.min.js')}}"></script>
 <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 @yield('js')
 
 </body>

@@ -23,8 +23,8 @@ Route::get('/',[AnimeController::class,'index'])->name('home');
 Route::get('/admin',[AdminController::class,'index'])->name('admin.index');
 Route::get('/admin/users',[AdminController::class,'view_users'])->name('admin.users');
 Route::get('/admin/user/{id_user}',[AdminController::class,'edit_user'])->name('admin.users.edit');
-Route::post('/admin/user/{id_user}',[AdminController::class,'update_user'])->name('admin.users.update');
-Route::post('/admin/user/{id_user}',[AdminController::class,'delete_user'])->name('admin.users.delete');
+Route::put('/admin/user/{id_user}',[AdminController::class,'update_user'])->name('admin.users.update');
+Route::post('/admin/user',[AdminController::class,'delete_user'])->name('admin.users.delete');
 
 Route::get('/admin/users/table',[AdminController::class,'users_table']);
 
