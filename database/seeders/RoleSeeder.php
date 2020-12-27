@@ -44,13 +44,17 @@ class RoleSeeder extends Seeder
        
         //Rol admin tendra permisos para usuarios,Catalogo,Posts
         $roleAdmin = Role::create(['name' => 'Administrativo']);
-        $roleAdmin->givePermissionTo('Usuarios');
-        $roleAdmin->givePermissionTo('Catalogo');
-        $roleAdmin->givePermissionTo('Posts');
+       
 
         //Asignar Rol admin al usuario Admin
         $admin->assignRole($roleAdmin);
 
+      
+        $roleAdmin->givePermissionTo([
+            'Catalogo',
+            'Posts',
+            'Usuarios'  
+         ]);
         //Rol mod tendra permisos para Catalogo y Posts
         $roleMod = Role::create(['name'=>'mod']);
         $roleMod->givePermissionTo([

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Datatables;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Permission;
 
 class AdminController extends Controller
 {
@@ -30,15 +32,15 @@ class AdminController extends Controller
     {
         
         $users = User::all();
-        
         return Datatables()->of($users)->toJson();
     }
 
     public function edit_user(Request $request, $id)
     {
         $user = User::find($id);
+        $roles = Role::all();
         
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user','roles'));
     }
 
     public function update_user(Request $request, $id){
@@ -60,16 +62,7 @@ class AdminController extends Controller
         $user->email = $request->email;
 
         //Otorgar o quitar permisos 
-        if($request->admin == "on"){
-            $user->assignRole("Administrativo");
-        }else{
-            $user->removeRole("Administrativo");
-        }
-        if($request->mod == "on"){
-            $user->assignRole("mod");
-        }else{
-            $user->removeRole("mod");
-        }
+        $user->syncRoles($request->roles);
         $user->save();
 
         return redirect()->back()->with("user_updated","Usuario actualizado exitosamente!");
@@ -87,4 +80,67 @@ class AdminController extends Controller
             "status" => 200
         ]);
     }
+
+    public function view_roles(){
+        return view('admin.roles.index');
+    }
+
+    public function roles_table(){
+
+        $roles = Role::all();
+        
+        return Datatables()->of($roles)->toJson();
+    }
+
+    public function role_edit($id){
+        
+        $rol = Role::find($id);
+        $permisos = Permission::all();
+        
+       // dd($rol->getAllPermissions());
+
+        return view('admin.roles.edit',compact('rol','permisos'));
+    }
+
+    public function role_update(Request $request, $id){
+
+        $role = Role::find($id);
+        $role->name = $request->nombre;
+        
+        //agregar o quitar permisos al rol
+        $role->syncPermissions($request->permisos);
+
+        $role->save();
+
+        return redirect()->route('admin.roles')->with('rol_updated','Rol actualizado exitosamente!');
+
+    }
+    public function create_rol(){
+        $permisos = Permission::all();
+        return view('admin.roles.create',compact('permisos'));
+    }
+
+    public function store_rol(Request $request){
+        
+        $roleAdmin = Role::create(['name' => $request->nombre,'guard_name'=>'web']);
+        $roleAdmin->givePermissionTo($request->permisos);
+       // dd($rol->getAllPermissions());
+       return redirect()->route('admin.roles')->with('rol_updated','Rol Creado exitosamente!');
+    }
+
+    public function delete_rol(Request $request)
+    {
+
+        $user = Role::find($request->id);
+        $user->delete();
+
+        return response()->json([
+            "mensaje" => "Rol eliminado exitosamente!",
+            "status" => 200
+        ]);
+    }
+
+    
+
+
 }

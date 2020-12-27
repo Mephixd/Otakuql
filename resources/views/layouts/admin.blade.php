@@ -199,10 +199,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <i class="nav-icon fas fa-users"></i>
               <p>
                  Usuarios
-                <span class="right badge badge-danger">New</span>
+               <!--   <span class="right badge badge-danger">New</span>-->
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="{{route('admin.roles')}}" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Roles
+                </p>
+              </a>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
