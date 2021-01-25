@@ -18,6 +18,7 @@ class CreateAnimeTable extends Migration
             $table->string('nombre');
             $table->text('sinopsis');
             $table->string('portada');
+            $table->string('extension_img')->nullable();
             $table->string('trailer_url')->nullable();
             $table->date('estreno');
             $table->integer('estado');

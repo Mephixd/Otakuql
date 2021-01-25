@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Genero extends Model
 {
     use HasFactory;
+    protected $table = "genero";
+    protected $fillable= ['nombre'];
+    public $timestamps = false;
 }

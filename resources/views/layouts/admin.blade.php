@@ -19,6 +19,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   
   <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -211,6 +212,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="{{route('admin.genero')}}" class="nav-link">
+                  <i class="nav-icon fas fa-users"></i>
+                  <p>
+                    Generos
+                  </p>
+                </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{route('admin.anime')}}" class="nav-link">
+                  <i class="nav-icon fas fa-users"></i>
+                  <p>
+                    Animes
+                  </p>
+                </a>
+            </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -282,6 +299,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdn.tiny.cloud/1/7jc8omyaywdqq8e8698b6c28ptkuvdb9naz1ivrtdrnrr9gv/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 @yield('js')
 
 </body>

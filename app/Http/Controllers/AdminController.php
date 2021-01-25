@@ -30,7 +30,6 @@ class AdminController extends Controller
     }
     public function users_table()
     {
-        
         $users = User::all();
         return Datatables()->of($users)->toJson();
     }
@@ -139,6 +138,8 @@ class AdminController extends Controller
             "status" => 200
         ]);
     }
+
+
 
     
 
