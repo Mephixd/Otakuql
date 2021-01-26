@@ -19,4 +19,9 @@ class CatalogoController extends Controller
         return view('home.catalogo.review',compact('anime'));
     }
 
+    public function buscarAnime(){
+        $textoBuscar = \Request::input('textoBuscar');
+        $data = Anime::where('nombre','like','%' . $textoBuscar . '%')->get();
+        return $data;
+    }
 }

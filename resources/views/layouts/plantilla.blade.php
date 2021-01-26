@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('css/slicknav.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('css/style.css')}}" type="text/css">
+    <link rel="stylesheet" href="{{asset('css/searchAnime.css')}}" type="text/css">
 </head>
 
 <body>
@@ -42,7 +43,7 @@
 
     <!-- Header Section Begin -->
     <header class="header">
-        <div class="container">
+        <div class="container" style="height: 62px">
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header__logo">
@@ -51,43 +52,36 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="{{route('home')}}">Homepage</a></li>
-                                <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
-                                    <ul class="dropdown">
-                                        <li><a href="{{route('catalogo')}}">Catalogo</a></li>
-                                        <li><a href="./anime-details.html">Anime Details</a></li>
-                                        <li><a href="./anime-watching.html">Anime Watching</a></li>
-                                        <li><a href="./blog-details.html">Blog Details</a></li>
-                                         @auth <li><a href="#">{{Auth::user()->name}}</a></li>  @endauth
-                                         @guest
-                                        <li><a href="{{route('registro.view')}}">Sign Up</a></li>
-                                        <li><a href="{{route('login.view')}}">Login</a></li>
-                                        @endguest
-                                    </ul>
-                                </li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
+                                <li @if(\Route::current()->getName() == 'home') class="active" @endif ><a href="{{route('home')}}">Inicio</a></li>
+                                <li @if(\Route::current()->getName() == 'catalogo') class="active" @endif ><a href="{{route('catalogo')}}">Animes</a></li>
+                                <li><a href="#">Contáctanos</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-                <div class="col-lg-2">
-                    <div class="header__right ">
-                       <ul class="d-flex">
-                        <a href="#" class="search-switch ml-4"><span class="icon_search"></span></a>
+                <div class="col-lg-4">
+                    <div class="header__right">
+                       <ul class="d-flex justify-content-end">
+                            <input type="search" class="d-none form-control" placeholder="Buscar..." id="buscador" >
+                            <a href="#" class="btnSearch ml-3 mr-5" id="btnSearch"><span class="icon_search"></span></a>
+                            
                             @guest <a href="{{route('login.view')}}"><span class="icon_profile "></span></a> @endguest
                             @auth  <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{Auth::user()->name}}
-                              </a>
-                              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
-                              <li><a class="dropdown-item text-dark" href="{{route('logout')}}">Cerrar Sesion</a></li>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+                                <li class="dropdown-item text-dark">Perfil</li>
+                                <li><a class="dropdown-item text-dark" href="{{route('admin.index')}}">Administración</a></li>
+                                <div class="dropdown-divider"></div>
+                                <li><a class="dropdown-item text-dark" href="{{route('logout')}}">Cerrar Sesion</a></li>
+                              
                                 {{-- <li><a class="dropdown-item text-dark" href="#">Another action</a></li>
                                 <li><a class="dropdown-item text-dark" href="#">Something else here</a></li> --}}
-                              </ul>
+                            </ul>
                             @endauth
                         </ul>
                     </div>
@@ -165,8 +159,88 @@
     <script src="{{asset('js/jquery.slicknav.js')}}"></script>
     <script src="{{asset('js/owl.carousel.min.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('#btnSearch').click(function (e) { 
+                e.preventDefault();
+                $.ajax({
+                    type: "get",
+                    url: "/api/obtenerAnimesIndex",
+                    success: function (response) {
+                        recibirDatos(response);
+                    }
+                });
 
+                if($('#buscador').hasClass('d-none')){
+                    $('#buscador').removeClass('d-none');
+                }else{
+                    $('#buscador').addClass('d-none');
+                }
+            });
+        });
+
+        function recibirDatos(data){
+            const animesxd = [];
+            data.forEach(element => {
+                animesxd.push(element.nombre)
+            });
+            $( "#buscador" ).autocomplete({
+                source: animesxd
+            });
+        }
+
+        
+        
+        
+        /* function textoSearch(){
+            var textoBuscar = $('#buscador').val();
+            $.ajax({
+                type: "get",
+                url: "{{route('buscarAnime')}}",
+                data: {
+                    "textoBuscar" : textoBuscar,
+                },
+                success: function (response) {
+                    console.log(response);
+                    
+                    var template = '';
+                    response.forEach(element => {
+                        template += `
+                            <a href="#" class="list-group-item list-group-item-action">${element.nombre}</a>
+                        `;
+                    });
+                    $('#resultSearch').append(template);
+                }
+            });
+        } */
+        var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
+    </script>
 </body>
 
 </html>

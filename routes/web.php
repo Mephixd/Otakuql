@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
 /* Home */
 Route::get('/',[HomeController::class,'index'])->name('home');
 Route::get('/Ver/Anime',[HomeController::class,'play_anime'])->name('anime.play');
-
 /* FIn Home */
 
 /* ADMIN */
@@ -72,7 +71,7 @@ Route::get('/logout',[LoginController::class,'logout'])->name('logout');
 /* Catalogo */ 
 Route::get('/catalogo',[CatalogoController::class,'catalogo'])->name('catalogo');
 Route::get('/anime/{anime}',[CatalogoController::class,'review_Anime'])->name('review.anime');
-
+Route::get('buscarAnime',[CatalogoController::class,'buscarAnime'])->name('buscarAnime');
 
 /*Fin catalogo */
 

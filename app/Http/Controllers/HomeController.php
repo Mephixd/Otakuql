@@ -13,7 +13,10 @@ class HomeController extends Controller
         return view('Home.index');
     }
 
-  
+    public function obtenerAnimesIndex(){
+        $data = Anime::all();
+        return $data;
+    }
 
 
     public function play_anime(){

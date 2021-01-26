@@ -33,56 +33,54 @@ class AnimeController extends Controller
 
     public function store_anime(Request $request){
        
-      //dd($request->all());
-      $mañana = Carbon::tomorrow();
-      $mensajes = [
-        'nombre.unique'=>'El titulo del anime ya se encuentra registrado',
-        'estreno.before'=>'La fecha de estreno es incorrecta'
-      ];
-      $validacion = $request->validate([
-         'nombre' => 'required|unique:anime|max:200',
-         'estreno'=>'required|date',
-         'trailer'=>'required|max: 500',
-         'sinopsis'=>'required|max:2000',
-         'estado'=>'required',
-         'portada'=>'required|file|max:10000|mimes:jpg,bmp,png,jpeg,webp'
-      ],$mensajes);
-      
-      
-      $anime = new Anime();
-      $anime->nombre = $request->nombre;
-      $anime->estreno = $request->estreno;
-      $anime->trailer_url= $request->trailer;
-      $anime->sinopsis = $request->sinopsis;
-      $anime->calificacion = 10;
-      $anime->estado = $request->estado;
-   
-      //Guardar portada en proyecto
-      $portada= $request->file('portada');
-      $anime->portada = $request->file('portada')->getClientOriginalName();
-
-      //Guardar portada 
-      $nombre_portada = $request->file('portada')->getClientOriginalName();
-      $ext_portada = $request->file('portada')->getClientOriginalExtension();
-      $nombre_archivo = str_replace(' ','_', $request->nombre);
-      $anime->portada = $nombre_archivo;
-      $anime->save();
+        $mañana = Carbon::tomorrow();
+        $mensajes = [
+          'nombre.unique'=>'El titulo del anime ya se encuentra registrado',
+          'estreno.before'=>'La fecha de estreno es incorrecta'
+        ];
+        $validacion = $request->validate([
+           'nombre' => 'required|unique:anime|max:200',
+           'estreno'=>'required|date',
+           'trailer'=>'required|max: 500',
+           'sinopsis'=>'required|max:2000',
+           'estado'=>'required',
+           'portada'=>'required|file|max:10000|mimes:jpg,bmp,png,jpeg,webp'
+        ],$mensajes);
+        
+        
+        $anime = new Anime();
+        $anime->nombre = $request->nombre;
+        $anime->estreno = $request->estreno;
+        $anime->trailer_url= $request->trailer;
+        $anime->sinopsis = $request->sinopsis;
+        $anime->calificacion = 10;
+        $anime->estado = $request->estado;
      
-      $nombre_archivo =$anime->id.'.'.$ext_portada;
-      $anime->extension_img  = $ext_portada;
-      $anime->save();
-    
-      //store->(nombre_carpeta,disco);
-      $fileDrive = $request->file('portada')->storeAs('1fJRkUmYoQtltfJYRDfOs8x_Gzcgri27S',$nombre_archivo,'google');
-      Storage::disk('local')->put('public/portadas/'.$nombre_archivo,  File::get($portada));
-      //$fileLocal = $request->file('portada')->storeAs('portadas',$nombre_archivo,'portadas');
-
-     // dd($nombre_portada,$nombre_archivo,$filepath);
-     
-      //Storage::disk('google')->put($nombre_portada.'.'.$ext_portada,$request->file('portada'));
-      //$path = $portada->storeAs('google',$anime->id.'.'.$portada->getClientOriginalExtension());
-      $anime->generos()->sync($request->generos);
-      return redirect()->route('admin.anime')->with('anime_success','Anime Agregado exitosamente!');
+        //Guardar portada en proyecto
+        $portada= $request->file('portada');
+        $anime->portada = $request->file('portada')->getClientOriginalName();
+  
+        //Guardar portada 
+        $nombre_portada = $request->file('portada')->getClientOriginalName();
+        $ext_portada = $request->file('portada')->getClientOriginalExtension();
+        $anime->save();
+        
+        $nombre_archivo =$anime->id.'.'.$ext_portada;
+        $anime->portada = $nombre_archivo;
+        $anime->extension_img  = $ext_portada;
+        $anime->save();
+      
+        //store->(nombre_carpeta,disco);
+        $fileDrive = $request->file('portada')->storeAs('1fJRkUmYoQtltfJYRDfOs8x_Gzcgri27S',$nombre_archivo,'google');
+        Storage::disk('local')->put('public/portadas/'.$nombre_archivo,  File::get($portada));
+        //$fileLocal = $request->file('portada')->storeAs('portadas',$nombre_archivo,'portadas');
+  
+       // dd($nombre_portada,$nombre_archivo,$filepath);
+       
+        //Storage::disk('google')->put($nombre_portada.'.'.$ext_portada,$request->file('portada'));
+        //$path = $portada->storeAs('google',$anime->id.'.'.$portada->getClientOriginalExtension());
+        $anime->generos()->sync($request->generos);
+        return redirect()->route('admin.anime')->with('anime_success','Anime Agregado exitosamente!');
 
     }
     public function edit_anime($id){
