@@ -28,7 +28,6 @@
                       
                          <form action="{{route('registro')}}" method="POST">
                             @csrf
-                          
                             <div class="input__item">
                                 <input type="text" name="email" class="{{ $errors->has('email') ? ' has-error' : '' }} has-feedback" placeholder="Ingresa tu email">
                                 <span class="icon_mail"></span>

@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}" type="text/css">
@@ -66,10 +67,10 @@
                 <div class="col-lg-4">
                     <div class="header__right">
                        <ul class="d-flex justify-content-end">
-                            <input type="search" class="d-none form-control" placeholder="Buscar..." id="buscador" >
+                            <input type="search" class="d-none form-control" placeholder="Buscar..." id="buscador" style="width: 200px">
                             <a href="#" class="btnSearch ml-3 mr-5" id="btnSearch"><span class="icon_search"></span></a>
-                            
-                            @guest <a href="{{route('login.view')}}"><span class="icon_profile "></span></a> @endguest
+                            {{-- href="{{route('login.view')}}" --}}
+                            @guest <a href="#myModal" data-toggle="modal"><span class="icon_profile"></span></a> @endguest
                             @auth  <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{Auth::user()->name}}
                             </a>
@@ -90,6 +91,11 @@
             <div id="mobile-menu-wrap"></div>
         </div>
     </header>
+    @if(session('new_user'))
+        <div class="alert alert-success">
+            {{ session('new_user') }}
+        </div>
+    @endif
     <!-- Header End -->
     <!----Contenido--->
     @yield('main')
@@ -150,6 +156,106 @@
     </div>
     <!-- Search model end -->
 
+    <!-- MODAL LOGIN -->
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog modal-login">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="avatar d-flex justify-content-center align-items-center">
+                        <span class="fas fa-user fa-4x" alt="Avatar"></span>
+                    </div>				
+                    <h4 class="modal-title text-white">Iniciar Sesión</h4>	
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: white">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('login')}}" method="POST">
+                        @csrf
+                        <div class="form-group mb-4 mt-1 input__item">
+                            <label class="text-white">Email</label>
+                            <input type="text" class="{{ $errors->has('email') ? ' has-error' : '' }} has-feedback form-control" name="email" placeholder="Email" required="required">	
+                            @if ($errors->has('email')) <strong class="text-danger">{{ $errors->first('email') }}</strong> @endif	
+                        </div>
+                        <div class="form-group mb-5 mt-1 input__item">
+                            <label class="text-white">Contraseña</label>
+                            <input type="password" class="{{ $errors->has('contraseña') ? ' has-error' : '' }} has-feedback form-control" name="contraseña" placeholder="Contraseña" required="required">	
+                            @if ($errors->has('contraseña')) <strong class="text-danger">{{ $errors->first('contraseña') }}</strong> @endif
+                        </div>        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-btn site-btn">Ingresar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex justify-content-between">
+                        <div class="col-sm-5">
+                            <a href="#">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="vl" style="border-left: 1px solid rgb(255, 255, 255); height: 100%; top: 0; position: absolute; left: 50%; margin-left: -3px;"></div>
+                        </div>
+                        <div class="col-sm-5">
+                            <a href="#modalRegistrar" data-toggle="modal" data-dismiss="modal" aria-hidden="true">¿No tienes cuenta? Registrarse</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- FIN MODAL LOGIN -->
+
+    <!-- MODAL REGISTRARSE -->
+    <div id="modalRegistrar" class="modal fade">
+        <div class="modal-dialog modal-login" style="height: 520px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="avatar d-flex justify-content-center align-items-center">
+                        <span class="fas fa-user fa-4x" alt="Avatar"></span>
+                    </div>				
+                    <h4 class="modal-title text-white">Registrarse</h4>	
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="color: white">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{route('registro')}}" method="POST">
+                        @csrf
+                        <div class="form-group mb-4 mt-1 input__item">
+                            <label class="text-white">Email</label>
+                            <input type="text" class="{{ $errors->has('email') ? ' has-error' : '' }} has-feedback form-control" name="email" placeholder="Email" required="required">	
+                            @if ($errors->has('email')) <strong class="text-danger">{{ $errors->first('email') }}</strong> @endif	
+                        </div>
+                        <div class="form-group mb-4 mt-1 input__item">
+                            <label class="text-white">Nombre</label>
+                            <input type="text" class="{{ $errors->has('nombre') ? ' has-error' : '' }} has-feedback form-control" name="nombre" placeholder="Nombre" required="required">	
+                            @if ($errors->has('nombre')) <strong class="text-danger">{{ $errors->first('nombre') }}</strong> @endif	
+                        </div>
+                        <div class="form-group mb-5 mt-1 input__item">
+                            <label class="text-white">Contraseña</label>
+                            <input type="password" class="{{ $errors->has('contraseña') ? ' has-error' : '' }} has-feedback form-control" name="contraseña" placeholder="Contraseña" required="required">	
+                            @if ($errors->has('contraseña')) <strong class="text-danger">{{ $errors->first('contraseña') }}</strong> @endif
+                        </div>        
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-lg btn-block login-btn site-btn">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex justify-content-between">
+                        <div class="col-sm-5">
+                            <a href="#">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="vl" style="border-left: 1px solid rgb(255, 255, 255); height: 100%; top: 0; position: absolute; left: 50%; margin-left: -3px;"></div>
+                        </div>
+                        <div class="col-sm-5">
+                            <a href="#myModal" data-toggle="modal" data-dismiss="modal" aria-hidden="true">¿Ya tienes cuenta? Inicia sesión</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     
+    <!-- FIN MODAL REGISTRARSE -->
+
+
     <!-- Js Plugins -->
     <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -191,55 +297,6 @@
                 source: animesxd
             });
         }
-
-        
-        
-        
-        /* function textoSearch(){
-            var textoBuscar = $('#buscador').val();
-            $.ajax({
-                type: "get",
-                url: "{{route('buscarAnime')}}",
-                data: {
-                    "textoBuscar" : textoBuscar,
-                },
-                success: function (response) {
-                    console.log(response);
-                    
-                    var template = '';
-                    response.forEach(element => {
-                        template += `
-                            <a href="#" class="list-group-item list-group-item-action">${element.nombre}</a>
-                        `;
-                    });
-                    $('#resultSearch').append(template);
-                }
-            });
-        } */
-        var availableTags = [
-            "ActionScript",
-            "AppleScript",
-            "Asp",
-            "BASIC",
-            "C",
-            "C++",
-            "Clojure",
-            "COBOL",
-            "ColdFusion",
-            "Erlang",
-            "Fortran",
-            "Groovy",
-            "Haskell",
-            "Java",
-            "JavaScript",
-            "Lisp",
-            "Perl",
-            "PHP",
-            "Python",
-            "Ruby",
-            "Scala",
-            "Scheme"
-        ];
     </script>
 </body>
 
